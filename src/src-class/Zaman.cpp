@@ -14,7 +14,7 @@
 #ifndef SOURCE_ZAMAN_CPP
 #define SOURCE_ZAMAN_CPP
 
-#include "include-class/Zaman.hpp"
+#include "include-class/zaman.hpp"
 
 void Zaman::tkvm_hrist_v_d()
 {

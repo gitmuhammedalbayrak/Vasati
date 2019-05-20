@@ -11,7 +11,7 @@
  * [Copyright (C) 2006-2018, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)]
  */
 
-#include "include-class/Zaman.hpp"
+#include "include-class/zaman.hpp"
 
 int main()
 {

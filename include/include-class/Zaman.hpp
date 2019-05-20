@@ -131,10 +131,6 @@ public:
 };
 #endif
 
-#if defined(ZAMAN_HEADER_ONLY) && !defined(ZAMAN_SOURCE)
-#	define ZAMAN_SOURCE "pugixml.cpp"
-#	include ZAMAN_SOURCE
-#endif
 
 /**
 
