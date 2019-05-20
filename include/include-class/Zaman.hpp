@@ -20,7 +20,7 @@
 #include <cstdlib>
 #include "packages/pugixml-1.9/src/pugixml.hpp"
 
-class Zaman
+class zaman
 {
 public:
 	//------------------------------------------------------------------------------
@@ -126,8 +126,8 @@ public:
 	void gos_turk_v();
 	void gos_hrist_v();
 
-	Zaman();
-	~Zaman();
+	zaman();
+	~zaman();
 };
 #endif
 

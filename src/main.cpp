@@ -15,7 +15,7 @@
 
 int main()
 {
-		Zaman baslat;
+		zaman baslat;
 		
 		std::cout<<"cikmak icin enter'a basiniz"<<std::endl;
 		std::cin.get();
