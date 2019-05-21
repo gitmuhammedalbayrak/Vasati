@@ -110,23 +110,23 @@ public:
 	////////////////////////////////////////////////////////////////////////////////
 
 	void takvim_v_d();
-	void vakit_v_d();
-	void saat_v_d();
+	void vakit_v_d() ;
+	void saat_v_d()  ;
 
 	void tkvm_hrist_v_d();
-	void tkvm_turk_v_d();
+	void tkvm_turk_v_d() ;
 
 	void vkt_karisik_gecici();
-	void vkt_hrist_v_d();
-	void vkt_turk_v_d();
+	void vkt_hrist_v_d()     ;
+	void vkt_turk_v_d()      ;
 
 	void sat_hrist_v_d();
-	void sat_turk_v_d();
+	void sat_turk_v_d() ;
 
-	void gos_turk_v();
+	void gos_turk_v() ;
 	void gos_hrist_v();
 
-	zaman();
+	zaman() ;
 	~zaman();
 };
 #endif

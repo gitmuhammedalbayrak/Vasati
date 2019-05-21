@@ -33,19 +33,19 @@ void zaman::tkvm_turk_v_d()
 {
 	zaman::rakam_gun_haftanin = zaman::hrist_rakam_gun_haftanin;
 
-	int a_rakami      = zaman::hrist_rakam_sene - 621 ;
-	int b_rakami      = a_rakami / 33                 ;
-	int c_rakami      = a_rakami + b_rakami           ;
+	int a_rakami      = zaman::hrist_rakam_sene - 621          ;
+	int b_rakami      = a_rakami / 33                          ;
+	int c_rakami      = a_rakami + b_rakami                    ;
 
-	zaman::rakam_sene = c_rakami;
+	zaman::rakam_sene = c_rakami                               ;
 };
 
 void zaman::vkt_karisik_gecici()
 {
 
-	zaman::dosya_adresi = "include/XML/Vakitler.xml";
-	zaman::dosya.load_file(  zaman::dosya_adresi  ) ;
-	zaman::sehir           = dosya.child("cityinfo");
+	zaman::dosya_adresi    = "include/XML/Vakitler.xml";
+	zaman::dosya.load_file(  zaman::dosya_adresi  )    ;
+	zaman::sehir           = dosya.child("cityinfo")   ;
 
 
 
@@ -158,19 +158,19 @@ void zaman::sat_turk_v_d()
 
 void zaman::takvim_v_d()
 {
-	tkvm_hrist_v_d();
-	tkvm_turk_v_d() ;
+	tkvm_hrist_v_d()    ;
+	tkvm_turk_v_d()     ;
 };
 void zaman::vakit_v_d()
 {
 	vkt_karisik_gecici();
-	vkt_hrist_v_d();
-	vkt_turk_v_d() ;
+	vkt_hrist_v_d()     ;
+	vkt_turk_v_d()      ;
 };
 void zaman::saat_v_d()
 {
-	sat_hrist_v_d();
-	sat_turk_v_d() ;
+	sat_hrist_v_d()     ;
+	sat_turk_v_d()      ;
 };
 
 
