@@ -19,8 +19,6 @@ int main()
 		
 		std::cout<<"cikmak icin enter'a basiniz"<<std::endl;
 		std::cin.get();
-		
-		return 0;
 }
 
 /**
@@ -34,7 +32,7 @@ int main()
  * geliştiremezler. Türk düşmanlığı tesbit edilen kullanıcı ve
  * geliştiricilerin verilmişse hakları iptal edilir. İş bu lisans
  * maddeleri, kodları devr alan taraflarca, devralınan yerde
- * eksiksiz zikredilmelidir. Para ile satılamaz ticari gelir elde
+ * eksiksizce zikredilmelidir. Para ile satılamaz ticari gelir elde
  * etmeye aracı tutulamazlar.
  *
  * et-tevfik billah

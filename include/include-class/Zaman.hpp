@@ -43,9 +43,7 @@ public:
 	//------------------------------------------------------------------------------
 	//ASAGIDAKI DEGISKENLER TAKVIMLE ILISKILIDIR;
 	//------------------------------------------------------------------------------
-	std::string isim_gun;
 	std::string isim_ay;
-	std::string isim_vakit;
 	//------------------------------------------------------------------------------
 	unsigned int rakam_gun_senenin;
 	unsigned int rakam_gun_ayin;
@@ -54,14 +52,14 @@ public:
 	unsigned int rakam_ay;
 	unsigned int rakam_sene;
 	//------------------------------------------------------------------------------
-	std::string hrist_isim_ay;
+	std::string h_isim_ay;
 	//------------------------------------------------------------------------------
-	unsigned int hrist_rakam_gun_senenin;
-	unsigned int hrist_rakam_gun_ayin;
-	unsigned int hrist_rakam_gun_haftanin;
+	unsigned int h_rakam_gun_senenin;
+	unsigned int h_rakam_gun_ayin;
+	unsigned int h_rakam_gun_haftanin;
 	//------------------------------------------------------------------------------
-	unsigned int hrist_rakam_ay;
-	unsigned int hrist_rakam_sene;
+	unsigned int h_rakam_ay;
+	unsigned int h_rakam_sene;
 
 	//------------------------------------------------------------------------------
 	//ASAGIDAKI DEGISKENLER SAATLE ILISKILIDIR;
@@ -70,24 +68,24 @@ public:
 	unsigned int dakika;
 	unsigned int saniye;
 	//------------------------------------------------------------------------------
-	unsigned int hrist_saat;
-	unsigned int hrist_dakika;
-	unsigned int hrist_saniye;
+	unsigned int h_saat;
+	unsigned int h_dakika;
+	unsigned int h_saniye;
 	//------------------------------------------------------------------------------
-	std::string b_h_imsak; //herhalde bu b_h bi'l-hristî demek :)
-	std::string b_h_sabah;
-	std::string b_h_gunes;
-	std::string b_h_israk;
-	std::string b_h_kerahet;
-	std::string b_h_ogle;
-	std::string b_h_ikindi;
-	std::string b_h_asr_sani;
-	std::string b_h_isfirar_sems;
-	std::string b_h_aksam;
-	std::string b_h_istibak_nucum;
-	std::string b_h_yatsi;
-	std::string b_h_isa_sani;
-	std::string b_h_kible_saati;
+	std::string h_imsak; //h hrist demek. Yani hristiyan saatine göre vakitler.
+	std::string h_sabah;
+	std::string h_gunes;
+	std::string h_israk;
+	std::string h_kerahet;
+	std::string h_ogle;
+	std::string h_ikindi;
+	std::string h_asr_sani;
+	std::string h_isfirar_sems;
+	std::string h_aksam;
+	std::string h_istibak_nucum;
+	std::string h_yatsi;
+	std::string h_isa_sani;
+	std::string h_kible_saati;
 
 	std::string aksam;
 	std::string istibak_nucum;
@@ -106,25 +104,58 @@ public:
 
 	std::string simdiki_zaman_turk;
 
+	////////VAKİTLER İÇİN TOPLAM DAKİKA LEFTVALUE'LARI.////////
+
+	unsigned int h_aksam_td          ; //td toplam dakika demek.
+	unsigned int h_istibak_nucum_td  ;
+	unsigned int h_yatsi_td          ;
+	unsigned int h_isa_sani_td       ;
+	unsigned int h_imsak_td          ;
+	unsigned int h_sabah_td          ;
+	unsigned int h_gunes_td          ;
+	unsigned int h_israk_td          ;
+	unsigned int h_kerahet_td        ;
+	unsigned int h_ogle_td           ;
+	unsigned int h_ikindi_td         ;
+	unsigned int h_asr_sani_td       ;
+	unsigned int h_isfirar_sems_td   ;
+	unsigned int h_kible_saati_td    ;
+
+	unsigned int aksam_td          ;
+	unsigned int istibak_nucum_td  ;
+	unsigned int yatsi_td          ;
+	unsigned int isa_sani_td       ;
+	unsigned int imsak_td          ;
+	unsigned int sabah_td          ;
+	unsigned int gunes_td          ;
+	unsigned int israk_td          ;
+	unsigned int kerahet_td        ;
+	unsigned int ogle_td           ;
+	unsigned int ikindi_td         ;
+	unsigned int asr_sani_td       ;
+	unsigned int isfirar_sems_td   ;
+	unsigned int kible_saati_td    ;
+	
+	unsigned int h_zaman_td      ;
+	unsigned int zaman_td        ;
+
 	/////////////////////////////FONKSIYONLAR///////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
 
-	void takvim_v_d();
-	void vakit_v_d() ;
-	void saat_v_d()  ;
-
-	void tkvm_hrist_v_d();
+	void h_v_d()    ;
+	void turk_v_d() ;
+	
+	void tkvm_h_v_d()    ;
 	void tkvm_turk_v_d() ;
 
-	void vkt_karisik_gecici();
-	void vkt_hrist_v_d()     ;
+	void vkt_h_v_d()         ;
 	void vkt_turk_v_d()      ;
 
-	void sat_hrist_v_d();
+	void sat_h_v_d()    ;
 	void sat_turk_v_d() ;
 
 	void gos_turk_v() ;
-	void gos_hrist_v();
+	void gos_h_v()    ;
 
 	zaman() ;
 	~zaman();
