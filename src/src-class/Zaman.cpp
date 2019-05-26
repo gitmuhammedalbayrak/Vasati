@@ -116,19 +116,19 @@ void zaman::vkt_turk_v_d()
 	zaman::kible_saati_td   = (1440 - zaman::h_aksam_td) + zaman::h_kible_saati_td  ;
 
 	zaman::aksam = "00:00";
-	zaman::istibak_nucum.append( std::to_string(int(istibak_nucum_td / 60))  + ":" + std::to_string(int(istibak_nucum_td % 60)));
-	zaman::yatsi.append(         std::to_string(int(yatsi_td / 60))          + ":" + std::to_string(int(yatsi_td % 60)))        ;
-	zaman::isa_sani.append(      std::to_string(int(isa_sani_td / 60))       + ":" + std::to_string(int(isa_sani_td % 60)))     ;
-	zaman::imsak.append(         std::to_string(int(imsak_td / 60))          + ":" + std::to_string(int(imsak_td % 60)))        ;
-	zaman::sabah.append(         std::to_string(int(sabah_td / 60))          + ":" + std::to_string(int(sabah_td % 60)))        ;
-	zaman::gunes.append(         std::to_string(int(gunes_td / 60))          + ":" + std::to_string(int(gunes_td % 60)))        ;
-	zaman::israk.append(         std::to_string(int(israk_td / 60))          + ":" + std::to_string(int(israk_td % 60)))        ;
-	zaman::kerahet.append(       std::to_string(int(kerahet_td / 60))        + ":" + std::to_string(int(kerahet_td % 60)))      ;
-	zaman::ogle.append(          std::to_string(int(ogle_td / 60))           + ":" + std::to_string(int(ogle_td % 60)))         ;
-	zaman::ikindi.append(        std::to_string(int(ikindi_td / 60))         + ":" + std::to_string(int(ikindi_td % 60)))       ;
-	zaman::asr_sani.append(      std::to_string(int(asr_sani_td / 60))       + ":" + std::to_string(int(asr_sani_td % 60)))     ;
-	zaman::isfirar_sems.append(  std::to_string(int(isfirar_sems_td / 60))   + ":" + std::to_string(int(isfirar_sems_td % 60))) ;
-	zaman::kible_saati.append(   std::to_string(int(kible_saati_td / 60))    + ":" + std::to_string(int(kible_saati_td % 60)))  ;
+	zaman::istibak_nucum.append( std::to_string(int(istibak_nucum_td / 60)%12)  + ":" + std::to_string(int(istibak_nucum_td % 60)));
+	zaman::yatsi.append(         std::to_string(int(yatsi_td / 60)%12)          + ":" + std::to_string(int(yatsi_td % 60)))        ;
+	zaman::isa_sani.append(      std::to_string(int(isa_sani_td / 60)%12)       + ":" + std::to_string(int(isa_sani_td % 60)))     ;
+	zaman::imsak.append(         std::to_string(int(imsak_td / 60)%12)          + ":" + std::to_string(int(imsak_td % 60)))        ;
+	zaman::sabah.append(         std::to_string(int(sabah_td / 60)%12)          + ":" + std::to_string(int(sabah_td % 60)))        ;
+	zaman::gunes.append(         std::to_string(int(gunes_td / 60)%12)          + ":" + std::to_string(int(gunes_td % 60)))        ;
+	zaman::israk.append(         std::to_string(int(israk_td / 60)%12)          + ":" + std::to_string(int(israk_td % 60)))        ;
+	zaman::kerahet.append(       std::to_string(int(kerahet_td / 60)%12)        + ":" + std::to_string(int(kerahet_td % 60)))      ;
+	zaman::ogle.append(          std::to_string(int(ogle_td / 60)%12)           + ":" + std::to_string(int(ogle_td % 60)))         ;
+	zaman::ikindi.append(        std::to_string(int(ikindi_td / 60)%12)         + ":" + std::to_string(int(ikindi_td % 60)))       ;
+	zaman::asr_sani.append(      std::to_string(int(asr_sani_td / 60)%12)       + ":" + std::to_string(int(asr_sani_td % 60)))     ;
+	zaman::isfirar_sems.append(  std::to_string(int(isfirar_sems_td / 60)%12)   + ":" + std::to_string(int(isfirar_sems_td % 60))) ;
+	zaman::kible_saati.append(   std::to_string(int(kible_saati_td / 60)%12)    + ":" + std::to_string(int(kible_saati_td % 60)))  ;
 
 };
 
