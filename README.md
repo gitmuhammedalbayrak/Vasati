@@ -24,6 +24,10 @@ Türk Zaman Projesi. Bu program, şimdilik İstanbul için modern saat verilerin
     make
     Vasati
     ```
+## Çıktı
+
+<img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export0.png" />
+<img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export1.png" />
 
 ## Katkıda Bulunma
 
