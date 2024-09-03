@@ -1,15 +1,16 @@
 /**
- * bismillahirrahmanirrahim
+ * -e-
  *
  * vasatî - version 0.9
  * --------------------------------------------------------
- * Copyright (C) 1439-1440, by Üsküdarlı Fikret oğlu Muhammed Şamil (muhammed.garib@gmail.com)
+ * Copyright (C) 1439-1440, by M.M.M. Samil R.T.Ü (muhammed.samil.albayrak@outlook.com)
  *
- * Bu yazılım T1 ile lisanlanmıştır, ayrıntıları için sayfa sonuna bakınız
+ * This software is licensed under T1. For details, see the end of this file.
  *
- * Bu yazılım sağlanırken pugixml parser'dan faidelenilmiştir.
+ * This software utilizes the pugixml parser.
  * [Copyright (C) 2006-2018, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)]
  */
+
 
 #ifndef HEADER_ZAMAN_HPP
 #define HEADER_ZAMAN_HPP
