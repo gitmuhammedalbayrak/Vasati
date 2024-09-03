@@ -1,38 +1,38 @@
 # Vasati
 
-Türk Zaman Projesi. Bu program, şimdilik İstanbul için modern saat verilerini alıp Türk Saatine (İslam Saati, Vasatî Saat, Osmanlı Saati'ne) çevirir. Hicri yılı da döndürür. Namaz vakitlerini döndürür -yalnız diyanet işlerinin eski rasat sistemine göre-. Hicri ay bilgileri ve bazı ufak bilgiler eklenecek.
+This program retrieves modern time data for Istanbul and converts it into Classical Turkish Time. It also calculates alternative year measurements and specific time intervals based on the old observation system. Future updates will include month information and other related details.
 
-## Gereksinimler
+## Requirements
 
 - make
 - g++
 
-## Kullanım
+## Usage
 
-1. Çalışma klasörü içerisindeki Makefile dosyasını `make` ile çağırın.
-2. Make `g++` ile derleme işlemini gerçekleştirip sonucu komut satırı ortamında döndürür.
+1. Run the Makefile in the working directory using `make`.
+2. Make will compile the program using 'g++' and return the result in the command line environment.
 
-## Kurulum
+## Installation
 
-1. Bu depoyu yerel bir klasöre kopyalayın veya ZIP olarak indirin.
-2. Make yüklü değilse şu adresten yükleyin: `https://www.gnu.org/software/make/`
-2. g++ yüklü değilse şu adresten yükleyin: `https://gcc.gnu.org/`
-4. Terminal veya komut istemcisini açın ve bu betiği çalıştırmak istediğiniz klasöre gidin.
-5. Aşağıdaki komutu çalıştırın:
+1. Clone this repository to a local directory or download it as a ZIP file.
+2. If `make` is not installed, install it from: `https://www.gnu.org/software/make/`
+3. If `g++` is not installed, install it from: `https://gcc.gnu.org/`
+4. Open a terminal or command prompt and navigate to the directory where you want to run this script.
+5. Run the following command:
 
     ```shell
     make
     Vasati
     ```
-## Çıktı
+## Output
 
 <img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export0.png" />
 <img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export1.png" />
 
-## Katkıda Bulunma
+## Contributing
 
-Herhangi bir sorunuz, öneriniz veya katkınız varsa, lütfen bir [Pull Talebi](https://github.com/kullanici/depoadi/pulls) göndermekten çekinmeyin. Yardımınız ve katkılarınız memnuniyetle karşılanacaktır!
+If you have any questions, suggestions, or contributions, please feel free to submit a [Pull Talebi](https://github.com/kullanici/depoadi/pulls). Your help and contributions are greatly appreciated!
 
-## Lisans
+## License
 
-Bu proje T1 Lisansı altında lisanslanmıştır. Detaylı bilgi için kaynak kodlarını inceleyebilirsiniz.
+The T1 License for this project is available upon request. If you need further information or wish to obtain the license, please contact me directly. If I am not reachable, it should be considered that no license has been granted.
