@@ -243,7 +243,6 @@ zaman::zaman()
 }
 zaman::~zaman()
 {
-	//bilinmeyen boşluk :)
 }
 
 #endif
