@@ -249,19 +249,15 @@ zaman::~zaman()
 #endif
 
 /**
- 
- * Copyright (C) 1439-1440, by Üsküdarlı Fikret oğlu Muhammed Şamil (muhammed.garib@gmail.com)
+ * Copyright (C) 1439-1440, by M.M.M. Samil R.T.Ü (muhammed.samil.albayrak@outlook.com)
  *
- * T1 Lisansı ayrıntıları:
+ * T1 License Details:
  *
- * Dağıtımı ve kullanımında geliştiricisine haber verilmek kaydı
- * bulunmaktadır. Gayr-ı müslimler izn dışında kullanamaz ve 
- * geliştiremezler. Türk düşmanlığı tesbit edilen kullanıcı ve
- * geliştiricilerin verilmişse hakları iptal edilir. İş bu lisans 
- * maddeleri, kodları devr alan taraflarca, devralınan yerde 
- * eksiksiz zikredilmelidir. Para ile satılamaz ticari gelir elde
- * etmeye aracı tutulamazlar.
- *
- * et-tevfik billah
- * ve'l-hamdu-lillahi rabbilalemin.
- **/
+ * Redistribution and usage require notification to the developer.
+ * Unauthorized use and development are prohibited. Rights may be revoked
+ * if any hostility against Turkey is identified. This license and its
+ * terms must be cited without omission in any redistributed or derivative
+ * works. The code cannot be sold or used for commercial profit.
+ * 
+ * -e-
+ */
