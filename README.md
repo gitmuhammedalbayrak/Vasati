@@ -26,8 +26,8 @@ This program retrieves modern time data for Istanbul and converts it into Classi
     ```
 ## Output
 
-<img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export0.png" />
-<img align="center" src="https://github.com/MimBinFikret/Vasati/blob/master/exp/export1.png" />
+<img align="center" src="https://github.com/gitmuhammedalbayra/Vasati/blob/master/exp/export0.png" />
+<img align="center" src="https://github.com/gitmuhammedalbayrak/Vasati/blob/master/exp/export1.png" />
 
 ## Contributing
 
