@@ -70,7 +70,32 @@ unsigned int zaman::vakt_to_td(const std::string& vakt)
 
 std::string zaman::td_to_vakt(unsigned int td)
 {
-	return std::to_string(int(td / 60) % 12) + ":" + std::to_string(int(td % 60));
+	// ⚡ Bolt Optimizasyonu: std::to_string ve string birlestirme islemlerini
+	// yiginda (stack) tahsis edilen sabit boyutlu bir karakter dizisiyle degistirerek
+	// gereksiz bellek ayrimini onleyip performansi artiriyoruz.
+	char buf[6];
+	int h = (td / 60) % 12;
+	int m = td % 60;
+
+	int idx = 0;
+	if (h >= 10) {
+		buf[idx++] = '0' + (h / 10);
+		buf[idx++] = '0' + (h % 10);
+	} else {
+		buf[idx++] = '0' + h;
+	}
+
+	buf[idx++] = ':';
+
+	if (m >= 10) {
+		buf[idx++] = '0' + (m / 10);
+		buf[idx++] = '0' + (m % 10);
+	} else {
+		buf[idx++] = '0' + m;
+	}
+
+	buf[idx] = '\0';
+	return std::string(buf, idx);
 }
 
 void zaman::vkt_h_v_d()
