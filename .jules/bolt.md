@@ -8,3 +8,6 @@
 ## 2024-05-11 - [XML Lookup Optimization]
 **Learning:** Repeatedly calling `pugi::xml_node::find_child_by_attribute` to look up prayer times by `dayofyear` is an O(N) linear search bottleneck that slows down `zaman` class instantiations.
 **Action:** Replaced it with an O(1) array lookup. Since `dayofyear` acts as a sequential 0-based index (0-365), we can cache the `const char*` text of each `prayertimes` node into a static `cached_nodes[400]` array using a magic static block. This reduced instantiation time nearly by half.
+## 2024-05-19 - [Fixing Compilation Error caused by Duplicate Variable and Array Name]
+**Learning:** In C++, if a block of code uses lambda variable for static initialisation with an uninitialised variable name `cached_nodes` that is used for another array name in the same scope, it will give compile error. `cached_nodes` array was redefined. Also, storing raw `const char*` directly from `pt.text().get()` into a static array is a safe and effective way to cache static strings parsed by pugixml, since the static `pugi::xml_document` outlives the array.
+**Action:** Replace `cached_nodes` array with `cached_strings` to avoid compilation errors and ensure string pointers are safely cached instead of storing multiple `pugi::xml_node` copies unnecessarily.
