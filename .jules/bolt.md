@@ -8,3 +8,7 @@
 ## 2024-05-11 - [XML Lookup Optimization]
 **Learning:** Repeatedly calling `pugi::xml_node::find_child_by_attribute` to look up prayer times by `dayofyear` is an O(N) linear search bottleneck that slows down `zaman` class instantiations.
 **Action:** Replaced it with an O(1) array lookup. Since `dayofyear` acts as a sequential 0-based index (0-365), we can cache the `const char*` text of each `prayertimes` node into a static `cached_nodes[400]` array using a magic static block. This reduced instantiation time nearly by half.
+
+## 2026-05-22 - [Performance Optimization: String Appending]
+**Learning:** In string-heavy parsing logic like `zaman::sat_turk_v_d()`, replacing multiple `.append(std::to_string(...))` allocations with a direct `char buf[]` mapping (`'0' + s/10` arithmetic) provides noticeable time savings during tight iterations or heavy instantiations by entirely bypassing string object creation and formatting logic inherent to `to_string` combined with `+` allocations.
+**Action:** Always favor character manipulation into stack-allocated buffers for simple integers formatted within critical inner paths.
