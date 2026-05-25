@@ -163,7 +163,7 @@ public:
 	~zaman();
 
 private:
-	unsigned int vakt_to_td(const std::string& vakt);
+	unsigned int vakt_to_td(const char* vakt);
 	std::string td_to_vakt(unsigned int td);
 };
 #endif
