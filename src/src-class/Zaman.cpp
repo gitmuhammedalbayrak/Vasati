@@ -70,7 +70,30 @@ unsigned int zaman::vakt_to_td(const std::string& vakt)
 
 std::string zaman::td_to_vakt(unsigned int td)
 {
-	return std::to_string(int(td / 60) % 12) + ":" + std::to_string(int(td % 60));
+	char buf[6];
+	int h = (td / 60) % 12;
+	int m = td % 60;
+
+	int pos = 0;
+	if (h >= 10) {
+		buf[pos++] = '0' + (h / 10);
+		buf[pos++] = '0' + (h % 10);
+	} else {
+		buf[pos++] = '0' + h;
+	}
+
+	buf[pos++] = ':';
+
+	if (m >= 10) {
+		buf[pos++] = '0' + (m / 10);
+		buf[pos++] = '0' + (m % 10);
+	} else {
+		// Orijinal kodda m = 5 icin "5" donuyordu, 05 degil. Geriye donuk uyumluluk.
+		buf[pos++] = '0' + m;
+	}
+	buf[pos] = '\0';
+
+	return std::string(buf, pos);
 }
 
 void zaman::vkt_h_v_d()
@@ -89,38 +112,22 @@ void zaman::vkt_h_v_d()
 
 	char buffer[5];
 
-	static const pugi::xml_node* cached_nodes = []() {
+	static const char* cached_strings[400] = {nullptr};
+	static bool is_cached = []() {
 		static pugi::xml_document doc;
-		if (!doc.load_file("include/XML/Vakitler.xml") && !doc.load_file("vakitler.xml")) {
-			throw std::runtime_error("XML load failed");
-		}
+		if (!doc.load_file("include/XML/Vakitler.xml") && !doc.load_file("vakitler.xml")) return false;
 		pugi::xml_node node = doc.child("cityinfo");
-		if (!node) {
-			throw std::runtime_error("Missing cityinfo node");
-		}
-
-		// ⚡ Bolt Optimizasyonu: XML düğümlerini 'dayofyear' özniteliğine göre önbelleğe alarak O(1) erişim sağla (O(N) doğrusal arama yerine)
-		// Her nesne örneği oluşturulduğunda O(N) doğrusal arama darboğazını ortadan kaldırır
-		static pugi::xml_node nodes[400];
+		if (!node) return false;
 		for (pugi::xml_node pt = node.child("prayertimes"); pt; pt = pt.next_sibling("prayertimes")) {
 			int day = pt.attribute("dayofyear").as_int(-1);
 			if (day >= 0 && day < 400) {
-				nodes[day] = pt;
+				cached_strings[day] = pt.text().get();
 			}
-		}
-		return nodes;
-	}();
-
-	static const char* cached_nodes[400] = {nullptr};
-	static bool cached_nodes_init = []() {
-		for (pugi::xml_node pt = cached_sehir.child("prayertimes"); pt; pt = pt.next_sibling("prayertimes")) {
-			int day = std::atoi(pt.attribute("dayofyear").value());
-			if (day >= 0 && day < 400) cached_nodes[day] = pt.text().get();
 		}
 		return true;
 	}();
 
-	zaman::xml_bu_gun = (zaman::h_rakam_gun_senenin >= 0 && zaman::h_rakam_gun_senenin < 400 && cached_nodes[zaman::h_rakam_gun_senenin]) ? cached_nodes[zaman::h_rakam_gun_senenin] : "";
+	zaman::xml_bu_gun = (zaman::h_rakam_gun_senenin >= 0 && zaman::h_rakam_gun_senenin < 400 && cached_strings[zaman::h_rakam_gun_senenin]) ? cached_strings[zaman::h_rakam_gun_senenin] : "";
 
 	zaman::h_aksam         = zaman::xml_bu_gun.substr(50, 6);
 	zaman::h_istibak_nucum = zaman::xml_bu_gun.substr(56, 6);
@@ -130,7 +137,7 @@ void zaman::vkt_h_v_d()
 	//buradaka kodları yeniliyoruz çünkü bir sonraki gün kılacağız verileri:
 
 	int next_day = zaman::h_rakam_gun_senenin + 1;
-	zaman::xml_bu_gun = (next_day >= 0 && next_day < 400 && cached_nodes[next_day]) ? cached_nodes[next_day] : "";
+	zaman::xml_bu_gun = (next_day >= 0 && next_day < 400 && cached_strings[next_day]) ? cached_strings[next_day] : "";
 
 	zaman::h_imsak          = zaman::xml_bu_gun.substr(0, 4) ;
 	zaman::h_sabah          = zaman::xml_bu_gun.substr(5, 5) ;
@@ -208,7 +215,32 @@ void zaman::sat_turk_v_d()
 	zaman::dakika    =  int((  zaman::zaman_td   / 60) % 60 )      ;
 	zaman::saniye    =  int((  zaman::zaman_td ) % 60)             ;
 
-	zaman::simdiki_zaman_turk.append(std::to_string(zaman::saat)    + ":" +   std::to_string(zaman::dakika)   + ":" +   std::to_string(zaman::saniye));
+	// ⚡ Bolt Optimizasyonu: std::to_string ve bellek ayirma/kopyalama
+	// overhead'inden kurtulmak icin stack tabanli bir buffer kullaniyoruz.
+	char buf[9];
+	int pos = 0;
+	if (zaman::saat >= 10) {
+		buf[pos++] = '0' + (zaman::saat / 10);
+		buf[pos++] = '0' + (zaman::saat % 10);
+	} else {
+		buf[pos++] = '0' + zaman::saat;
+	}
+	buf[pos++] = ':';
+	if (zaman::dakika >= 10) {
+		buf[pos++] = '0' + (zaman::dakika / 10);
+		buf[pos++] = '0' + (zaman::dakika % 10);
+	} else {
+		buf[pos++] = '0' + zaman::dakika;
+	}
+	buf[pos++] = ':';
+	if (zaman::saniye >= 10) {
+		buf[pos++] = '0' + (zaman::saniye / 10);
+		buf[pos++] = '0' + (zaman::saniye % 10);
+	} else {
+		buf[pos++] = '0' + zaman::saniye;
+	}
+	buf[pos] = '\0';
+	zaman::simdiki_zaman_turk.append(buf, pos);
 
 };
 
