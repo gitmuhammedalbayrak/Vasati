@@ -111,16 +111,7 @@ void zaman::vkt_h_v_d()
 		return nodes;
 	}();
 
-	static const char* cached_nodes[400] = {nullptr};
-	static bool cached_nodes_init = []() {
-		for (pugi::xml_node pt = cached_sehir.child("prayertimes"); pt; pt = pt.next_sibling("prayertimes")) {
-			int day = std::atoi(pt.attribute("dayofyear").value());
-			if (day >= 0 && day < 400) cached_nodes[day] = pt.text().get();
-		}
-		return true;
-	}();
-
-	zaman::xml_bu_gun = (zaman::h_rakam_gun_senenin >= 0 && zaman::h_rakam_gun_senenin < 400 && cached_nodes[zaman::h_rakam_gun_senenin]) ? cached_nodes[zaman::h_rakam_gun_senenin] : "";
+	zaman::xml_bu_gun = (zaman::h_rakam_gun_senenin >= 0 && zaman::h_rakam_gun_senenin < 400 && cached_nodes[zaman::h_rakam_gun_senenin]) ? std::string(cached_nodes[zaman::h_rakam_gun_senenin].text().get()) : "";
 
 	zaman::h_aksam         = zaman::xml_bu_gun.substr(50, 6);
 	zaman::h_istibak_nucum = zaman::xml_bu_gun.substr(56, 6);
@@ -130,7 +121,7 @@ void zaman::vkt_h_v_d()
 	//buradaka kodları yeniliyoruz çünkü bir sonraki gün kılacağız verileri:
 
 	int next_day = zaman::h_rakam_gun_senenin + 1;
-	zaman::xml_bu_gun = (next_day >= 0 && next_day < 400 && cached_nodes[next_day]) ? cached_nodes[next_day] : "";
+	zaman::xml_bu_gun = (next_day >= 0 && next_day < 400 && cached_nodes[next_day]) ? std::string(cached_nodes[next_day].text().get()) : "";
 
 	zaman::h_imsak          = zaman::xml_bu_gun.substr(0, 4) ;
 	zaman::h_sabah          = zaman::xml_bu_gun.substr(5, 5) ;

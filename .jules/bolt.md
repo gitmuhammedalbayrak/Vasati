@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-06 - [Avoid Premature Micro-optimizations]
+**Learning:** Modern C++ std::string implementations use Small String Optimization (SSO) for strings under ~15-22 characters, allocating them directly on the stack rather than the heap. Attempting to manually replace `std::to_string` with C-style character arrays and ASCII arithmetic for short strings (like "12:59") is a premature micro-optimization that severely harms readability while providing no real-world performance benefit, as heap allocations are already avoided by SSO.
+**Action:** Do not sacrifice code readability to avoid `std::to_string` for short formatted strings. Keep utilizing standard idiomatic C++ library features for string generation unless profiling proves it to be an actual bottleneck due to sizes exceeding the SSO limit.
