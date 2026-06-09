@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-09 - [Fix duplicate initialization and unbounded string append]
+**Learning:** During XML parsing optimizations, `cached_nodes` was inadvertently duplicated as both a pointer and an array of `const char*`, causing type conflicts in ternary assignments. Additionally, using `.append()` in object initialization for strings (like `zaman::istibak_nucum`) in repeatedly instantiated classes causes unintended concatenation state and overhead if strings aren't cleared.
+**Action:** Removed redundant `cached_nodes` initialization and used assignment (`=`) instead of `.append()` when setting class string members to avoid unbounded accumulation across class state.
