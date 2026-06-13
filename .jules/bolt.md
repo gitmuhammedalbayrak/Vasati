@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2024-06-25 - std::string::append ve std::to_string Optimizasyonu
+**Learning:** `td_to_vakt` gibi sık çağrılan metodlarda `std::to_string` kullanarak art arda `std::string` birleştirmeleri yapmak (özellikle `+=` veya `.append()` ile), kısa ömürlü string nesneleri ve potansiyel tahsisler (allocation) yüzünden gereksiz performans kaybı yaşatır. Performans testleri sonucunda, eski `.append()` yönteminin bir miktar darboğaz yarattığı görüldü.
+**Action:** Gelecek sefere benzer string oluşturma bloklarında, performansı ve okunabilirliği korumak adına sabit boyutlu küçük `char` dizileri (buffer) tahsis ederek veriyi `std::snprintf` ile güvenle şekillendir ve ardından bir kez kopyalama yaparak `std::string(buf)` olarak geri döndür veya atama (assignment) yap.
