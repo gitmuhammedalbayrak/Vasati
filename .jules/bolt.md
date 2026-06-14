@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2024-05-18 - [Class Member String Unbounded Growth with `.append()`]
+**Learning:** Using `.append()` to update string member variables within class initialization/calculation methods (like `vkt_turk_v_d`) causes unbounded string growth on repeated calls or multi-instantiations, leading to huge memory allocation overheads, reallocation bottlenecks, and bugs where the string content is repeatedly concatenated (e.g. "06:1806:18"). Additionally, combining multiple `std::to_string` with `+` has significant measurable short-lived allocation overhead.
+**Action:** Always prefer direct assignment (`=`) instead of `.append()` when rebuilding/resetting a string's value inside recurring class methods. Also, favor fixed-size stack `char` arrays + `std::snprintf` over `std::to_string` + string concatenation for simple performance-critical formatting loops.
