@@ -12,3 +12,6 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+## 2026-05-27 - [C++ String Allocation Performance]
+**Learning:** In C++, frequently calling `std::to_string()` and chaining string concatenation via `+` causes multiple short-lived heap allocations, creating a measurable performance regression. Similarly, using `.append()` in a class method that is called repeatedly on the same object state causes unbounded memory growth and severe performance penalties.
+**Action:** Replace `std::to_string` and `+` concatenations with fixed-size stack arrays (`char buffer[N]`) and `std::snprintf()` for building formatted strings. Always prefer direct assignment (`=`) over `.append()` when rebuilding internal string state to avoid memory leaks.
