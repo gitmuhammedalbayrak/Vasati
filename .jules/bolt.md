@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-17 - [Döngüsel String Birleştirme Optimizasyonu]
+**Learning:** `zaman` sınıfındaki periyodik olarak çağrılan `vkt_turk_v_d` ve `sat_turk_v_d` fonksiyonlarında `std::string::append` kullanımı, string'in sınırsız büyümesine ve sürekli dinamik bellek tahsisine neden olarak bellek sızıntısı benzeri bir duruma (ve ciddi performans darboğazına) yol açıyordu.
+**Action:** String birleştirme işlemleri yerine doğrudan atama (`=`) operatörü kullanıldı. Bu sayede gereksiz bellek kullanımı önlendi ve programın uzun süreli çalışmalardaki stabilitesi artırıldı.
