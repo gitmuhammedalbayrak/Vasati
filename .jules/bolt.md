@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-18 - [Optimize String Concatenation in Loop/Method]
+**Learning:** `std::string::append()` calls within repeatedly executed methods (like `vkt_turk_v_d` and `sat_turk_v_d` in the `zaman` class) cause the string to grow indefinitely. This not only incurs unnecessary memory allocation overhead leading to performance degradation, but also acts as a subtle memory leak and produces incorrect (concatenated) values over time.
+**Action:** Always use direct assignment (`=`) instead of `.append()` when rebuilding strings that are meant to hold a single snapshot of data in a repeatedly called method.
