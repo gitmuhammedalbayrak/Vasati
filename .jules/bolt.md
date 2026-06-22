@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-22 - [Optimize String Assignments in zaman]
+**Learning:** In the `zaman` class, repeatedly calling method functions such as `vkt_turk_v_d` or `sat_turk_v_d` that use `std::string::append` causes unbounded string growth and high memory overhead, essentially acting as a memory leak/bug during continuous program operation. Additionally, chaining `std::to_string` combined with `+` operations creates unnecessary short-lived heap allocations that degrade performance significantly over multiple loop iterations.
+**Action:** Replaced `.append()` with direct assignment (`=`) to ensure safe state reconstruction in `vkt_turk_v_d`. Replaced chained `std::to_string` with fixed-size `char` stack buffers and `std::snprintf` in both `td_to_vakt` and `sat_turk_v_d` to prevent intermediate allocations, providing measurable instantiation speedups and memory safety.
