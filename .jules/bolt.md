@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-06-23 - [String Append vs Assignment and snprintf optimization]
+**Learning:** Using `std::string::append` within an object repeatedly to build the current times results in unbounded string growth during repetitive execution contexts (such as loops) and increases implicit allocations. `std::to_string` causes intermediate small string allocations which also increase overhead on frequent string concats.
+**Action:** Replaced string concats chaining with fixed-size local stack `char` arrays and `std::snprintf`, casting back to `std::string` returning it and setting it with pure assignment. This fixes memory leaks by repetitive `.append()` calls and improves parsing strings allocation speed.
