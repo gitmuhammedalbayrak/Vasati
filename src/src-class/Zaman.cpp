@@ -70,7 +70,9 @@ unsigned int zaman::vakt_to_td(const std::string& vakt)
 
 std::string zaman::td_to_vakt(unsigned int td)
 {
-	return std::to_string(int(td / 60) % 12) + ":" + std::to_string(int(td % 60));
+	char buffer[16];
+	std::snprintf(buffer, sizeof(buffer), "%d:%d", int(td / 60) % 12, int(td % 60));
+	return std::string(buffer);
 }
 
 void zaman::vkt_h_v_d()
@@ -89,7 +91,7 @@ void zaman::vkt_h_v_d()
 
 	char buffer[5];
 
-	static const pugi::xml_node* cached_nodes = []() {
+	static const pugi::xml_node* cached_xml_nodes = []() {
 		static pugi::xml_document doc;
 		if (!doc.load_file("include/XML/Vakitler.xml") && !doc.load_file("vakitler.xml")) {
 			throw std::runtime_error("XML load failed");
@@ -111,16 +113,12 @@ void zaman::vkt_h_v_d()
 		return nodes;
 	}();
 
-	static const char* cached_nodes[400] = {nullptr};
-	static bool cached_nodes_init = []() {
-		for (pugi::xml_node pt = cached_sehir.child("prayertimes"); pt; pt = pt.next_sibling("prayertimes")) {
-			int day = std::atoi(pt.attribute("dayofyear").value());
-			if (day >= 0 && day < 400) cached_nodes[day] = pt.text().get();
-		}
-		return true;
-	}();
-
-	zaman::xml_bu_gun = (zaman::h_rakam_gun_senenin >= 0 && zaman::h_rakam_gun_senenin < 400 && cached_nodes[zaman::h_rakam_gun_senenin]) ? cached_nodes[zaman::h_rakam_gun_senenin] : "";
+	int current_day = zaman::h_rakam_gun_senenin;
+	if (current_day >= 0 && current_day < 400 && cached_xml_nodes[current_day]) {
+		zaman::xml_bu_gun = std::string(cached_xml_nodes[current_day].text().get());
+	} else {
+		zaman::xml_bu_gun = "";
+	}
 
 	zaman::h_aksam         = zaman::xml_bu_gun.substr(50, 6);
 	zaman::h_istibak_nucum = zaman::xml_bu_gun.substr(56, 6);
@@ -130,7 +128,11 @@ void zaman::vkt_h_v_d()
 	//buradaka kodları yeniliyoruz çünkü bir sonraki gün kılacağız verileri:
 
 	int next_day = zaman::h_rakam_gun_senenin + 1;
-	zaman::xml_bu_gun = (next_day >= 0 && next_day < 400 && cached_nodes[next_day]) ? cached_nodes[next_day] : "";
+	if (next_day >= 0 && next_day < 400 && cached_xml_nodes[next_day]) {
+		zaman::xml_bu_gun = std::string(cached_xml_nodes[next_day].text().get());
+	} else {
+		zaman::xml_bu_gun = "";
+	}
 
 	zaman::h_imsak          = zaman::xml_bu_gun.substr(0, 4) ;
 	zaman::h_sabah          = zaman::xml_bu_gun.substr(5, 5) ;
@@ -177,19 +179,19 @@ void zaman::vkt_turk_v_d()
 	zaman::kible_saati_td   = (1440 - zaman::h_aksam_td) + zaman::h_kible_saati_td  ;
 
 	zaman::aksam = "00:00";
-	zaman::istibak_nucum.append( td_to_vakt(istibak_nucum_td) );
-	zaman::yatsi.append(         td_to_vakt(yatsi_td)         );
-	zaman::isa_sani.append(      td_to_vakt(isa_sani_td)      );
-	zaman::imsak.append(         td_to_vakt(imsak_td)         );
-	zaman::sabah.append(         td_to_vakt(sabah_td)         );
-	zaman::gunes.append(         td_to_vakt(gunes_td)         );
-	zaman::israk.append(         td_to_vakt(israk_td)         );
-	zaman::kerahet.append(       td_to_vakt(kerahet_td)       );
-	zaman::ogle.append(          td_to_vakt(ogle_td)          );
-	zaman::ikindi.append(        td_to_vakt(ikindi_td)        );
-	zaman::asr_sani.append(      td_to_vakt(asr_sani_td)      );
-	zaman::isfirar_sems.append(  td_to_vakt(isfirar_sems_td)  );
-	zaman::kible_saati.append(   td_to_vakt(kible_saati_td)   );
+	zaman::istibak_nucum = td_to_vakt(istibak_nucum_td);
+	zaman::yatsi         = td_to_vakt(yatsi_td);
+	zaman::isa_sani      = td_to_vakt(isa_sani_td);
+	zaman::imsak         = td_to_vakt(imsak_td);
+	zaman::sabah         = td_to_vakt(sabah_td);
+	zaman::gunes         = td_to_vakt(gunes_td);
+	zaman::israk         = td_to_vakt(israk_td);
+	zaman::kerahet       = td_to_vakt(kerahet_td);
+	zaman::ogle          = td_to_vakt(ogle_td);
+	zaman::ikindi        = td_to_vakt(ikindi_td);
+	zaman::asr_sani      = td_to_vakt(asr_sani_td);
+	zaman::isfirar_sems  = td_to_vakt(isfirar_sems_td);
+	zaman::kible_saati   = td_to_vakt(kible_saati_td);
 
 };
 
@@ -208,7 +210,9 @@ void zaman::sat_turk_v_d()
 	zaman::dakika    =  int((  zaman::zaman_td   / 60) % 60 )      ;
 	zaman::saniye    =  int((  zaman::zaman_td ) % 60)             ;
 
-	zaman::simdiki_zaman_turk.append(std::to_string(zaman::saat)    + ":" +   std::to_string(zaman::dakika)   + ":" +   std::to_string(zaman::saniye));
+	char time_buf[32];
+	std::snprintf(time_buf, sizeof(time_buf), "%d:%d:%d", zaman::saat, zaman::dakika, zaman::saniye);
+	zaman::simdiki_zaman_turk = time_buf;
 
 };
 
