@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-07-05 - [String Concatenation Bottleneck Optimization]
+**Learning:** In frequently called functions like `td_to_vakt` and formatting loops, combining `std::to_string` calls with string concatenation (`+` or `.append()`) generates overhead due to intermediate string object constructions and memory allocations.
+**Action:** Replaced `std::to_string` logic and string concatenation with a stack-based `char` buffer (e.g. `char buffer[32]`) and `std::snprintf`. This avoids unnecessary heap allocations while inherently providing format guarantees like `%02d` for zero-padding time segments.
