@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-07-21 - [Prevent Memory Leaks in Repeated String Operations]
+**Learning:** In the `zaman` class, properties like `yatsi`, `imsak`, and `simdiki_zaman_turk` were being appended to (using `std::string::append()`) instead of being overwritten during methods like `vkt_turk_v_d()` and `sat_turk_v_d()`. When these methods are called repeatedly on the same object instance, it causes a memory leak (unbounded string growth) and leads to incorrectly concatenated string representations (e.g., "80008" string length instead of "8").
+**Action:** Replaced `.append()` operations with direct assignment (`=`) for `std::string` members in repetitive methods. This completely removes the string length accumulation bug and yields a performance boost in high-iteration scenarios by avoiding reallocation.
