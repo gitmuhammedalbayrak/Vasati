@@ -12,3 +12,6 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+## 2024-07-27 - [Performans Optimizasyonu ve Kararlılık İyileştirmesi]
+**Öğrenim:** `.append()` metodu `std::string`'ler üzerinde döngü veya tekrar eden atamalarda kullanıldığında zamanla stringin gereksiz büyümesine, sürekli bellek ayırmalarına ve bazen hatalı verilere yol açabiliyor.
+**Aksiyon:** Sık çağrılan veya formata ihtiyaç duyan yerlerde (özellikle dakika ve saniye gibi gösterimler için `snprintf`) C tarzı `char` dizilerini ve `std::snprintf` fonksiyonunu, doğrudan `=` ataması ile kullanarak (örneğin `.append()` yerine) belleği etkin yönetmeli ve performansı artırmalı.
