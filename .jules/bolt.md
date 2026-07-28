@@ -12,3 +12,9 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2024-05-14 - [String Assignment vs Append Performance]
+**Learning:** In `src/src-class/Zaman.cpp`, repeatedly calling `.append()` to build `std::string` objects representing time (e.g. `zaman::istibak_nucum.append(td_to_vakt(...))`) is significantly slower than direct assignment (`=`) and can cause unbounded string growth across object instantiations if the strings are not cleared. Using `= td_to_vakt(...)` is 2-3x faster and avoids string growth bugs.
+
+## 2024-05-14 - [snprintf is slower than to_string+concat]
+**Learning:** While `std::snprintf` is safe, micro-benchmarks in this environment show that `std::to_string(H) + ":" + std::to_string(M)` is actually slightly faster than `std::snprintf(buf, "%d:%02d", H, M)` for short 2-component strings. However, `std::snprintf` is strictly required for zero-padding components (like `%02d` for minutes and seconds), which `std::to_string` does not support. Therefore, when padding is required, use `snprintf`; when padding is not required (like in `td_to_vakt` which just does `H:M` without padding), stick to `to_string`.
