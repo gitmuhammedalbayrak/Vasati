@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2023-10-27 - [String Append Memory Leak Behavior]
+**Learning:** In long-running applications (like time tracking apps), using `std::string::append()` to update string fields inside a frequently called function (like `vkt_turk_v_d` or `sat_turk_v_d`) causes unbounded string growth and severe memory bloat because `append()` adds to the existing string rather than replacing it. It acts as a memory leak/performance sink.
+**Action:** Always use direct string assignment (`=`) instead of `append()` when refreshing string values on every object instantiation or loop iteration. For time formats requiring zero-padding, use `std::snprintf()` to safely create a formatted character buffer, then assign it to the string.
