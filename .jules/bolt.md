@@ -12,3 +12,6 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+## 2026-07-31 - [String Concatenation Bottleneck Fix in Loops]
+**Learning:** In C++, using `std::string::append` within repeated method calls (like `vkt_turk_v_d` and `sat_turk_v_d`) without clearing the string first causes continuous memory reallocation and string growth, leading to a subtle logic bug and massive performance degradation.
+**Action:** Replaced `.append()` with direct assignment (`=`) for standard strings. For formatted times (like `simdiki_zaman_turk`), switched from multiple `std::to_string` and `+` concatenations to a highly optimized `std::snprintf` with a fixed local buffer, ensuring fast, zero-padded execution without dynamic allocation overhead.
