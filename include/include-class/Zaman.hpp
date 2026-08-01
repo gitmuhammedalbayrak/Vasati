@@ -20,6 +20,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <cctype>
+#include <cstdio>
 #include "packages/pugixml-1.9/src/pugixml.hpp"
 
 class zaman

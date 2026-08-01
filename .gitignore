@@ -1,3 +1,5 @@
 lib/*.o
 Vasati
 VasatiTest
+test_perf
+run_tests
