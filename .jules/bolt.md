@@ -12,3 +12,7 @@
 ## 2026-05-12 - [Remove Duplicate Static Initialization & Unsafe String Operations]
 **Learning:** The previous optimization attempt introduced a bug where 'cached_nodes' was initialized twice as different types (one array of xml_node pointers, one array of const char*). Moreover, directly casting const char* returned from pugixml without assigning to std::string when used in ternary operations can cause operand type mismatches.
 **Action:** Removed the redundant array initialization block and cast the char* obtained via `pt.text().get()` from the single cached xml_node array to `std::string` inside the ternary conditional to prevent implicit conversion mismatches.
+
+## 2026-08-03 - [Remove std::string::append in Repeated Loops]
+**Learning:** In the `zaman` class, members like `simdiki_zaman_turk`, `istibak_nucum`, etc. were being constructed using `.append()` in the `vkt_turk_v_d()` and `sat_turk_v_d()` methods. When the methods are called repeatedly (e.g., updating time in a loop), the strings kept growing continuously, creating O(N^2) memory allocations and producing subtle bugs (incorrect string values over time).
+**Action:** Replaced `.append()` with direct assignment `=` and used `std::snprintf` to combine zero-padded string formatting (e.g. `10:55:05`) and direct assignment, preventing memory leaks, reducing latency, and fixing single-digit rendering bugs.
